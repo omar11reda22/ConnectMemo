@@ -1,5 +1,4 @@
-const bcrypt = require("bcryptjs");
-const UserRepository = require("../repositories/userRepository");
+const UserRepository = require("../repos/UserRepo");
 
 const UserService = {
   createUser: async (userData) => {
@@ -13,6 +12,11 @@ const UserService = {
   },
   getUserById: async (userId) => {
     const user = await UserRepository.findUserById(userId);
+    if (!user) throw new Error("User not found");
+    return user;
+  },
+   getallusers: async () => {
+    const user = await UserRepository.getallusers();
     if (!user) throw new Error("User not found");
     return user;
   },

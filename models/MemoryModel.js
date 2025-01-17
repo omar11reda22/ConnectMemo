@@ -34,4 +34,4 @@ const MemorySchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Memory", MemorySchema);
+module.exports = mongoose.model("memory", MemorySchema);

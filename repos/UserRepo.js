@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/UserModel");
 
 const UserRepository = {
   createUser: async (userData) => {
@@ -6,6 +6,9 @@ const UserRepository = {
   },
   findUserById: async (userId) => {
     return await User.findOne({ user_id: userId });
+  },
+  getallusers: async () => {
+    return await User.find({});
   },
   findUserByEmail: async (email) => {
     return await User.findOne({ email });
