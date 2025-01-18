@@ -7,7 +7,7 @@ const UserRepository = {
   findUserById: async (userId) => {
     return await User.findOne({ user_id: userId });
   },
-  getallusers: async () => {
+  findallusers: async () => {
     return await User.find({});
   },
   findUserByEmail: async (email) => {

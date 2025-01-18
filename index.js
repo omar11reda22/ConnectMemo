@@ -3,10 +3,36 @@ const morgan = require("morgan");
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
 const path = require("path");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
 const app = express();
+
+// Swagger configuration
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "API Documentation",
+      version: "1.0.0",
+      description: "Endpoints for the application",
+    },
+    servers: [
+      {
+        url: "http://localhost:9797", // Replace with your server URL
+      },
+    ],
+  },
+  apis: ["./routes/*.js", "./controllers/*.js"], // Add paths to your route/controller files
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 // Middleware to parse JSON requests
 app.use(express.json());
+
+// Swagger UI setup
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Morgan logger middleware
 app.use(morgan("common"));
@@ -14,7 +40,7 @@ app.use(morgan("common"));
 // File upload middleware
 app.use(
   fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 },
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB file size limit
     useTempFiles: false,
     preserveExtension: true,
   })

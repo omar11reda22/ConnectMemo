@@ -181,7 +181,7 @@ const MemoryController = {
       const memories = await MemoryService.getMemoriesByUser(userId);
       res.status(200).json(memories);
     } catch (error) {
-      res.status(500).json({message:"Sorry ..!"}) // Pass error to the error-handling middleware
+      res.status(500).json({message:"Sorry . ..!"}) // Pass error to the error-handling middleware
     }
   },
 
@@ -234,10 +234,10 @@ const MemoryController = {
 
 
  router.post("/", MemoryController.createMemory); // Create a memory
- router.get("/:id", MemoryController.getMemory); // Get a memory by ID
+ router.get("/memory/:id", MemoryController.getMemory); // Get a memory by ID
 router.get("/memories", MemoryController.getAllMemories); // getall memories 
- router.get("/user/:userId", MemoryController.getMemoriesByUser); // Get all memories of a user
- router.put("/:id", MemoryController.updateMemory); // Update a memory by ID
+ router.get("/user/:userId", MemoryController.getMemoriesByUser); 
+ //router.put("/:id", MemoryController.updateMemory); // Update a memory by ID
  router.delete("/:id", MemoryController.deleteMemory); // Delete a memory by ID
 
 
