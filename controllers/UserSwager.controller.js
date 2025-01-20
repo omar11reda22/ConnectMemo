@@ -8,6 +8,8 @@ module.exports = (() => {
      * @swagger
      * /users:
      *   post:
+     *     tags:
+     *       - User
      *     summary: Create a new user
      *     description: Adds a new user to the system
      *     requestBody:
@@ -17,14 +19,22 @@ module.exports = (() => {
      *           schema:
      *             type: object
      *             properties:
-     *               email:
-     *                 type: string
-     *               password:
+     *               user_id:
      *                 type: string
      *               first_name:
      *                 type: string
      *               last_name:
      *                 type: string
+     *               email:
+     *                 type: string
+     *               user_type:
+     *                type: string
+     *               password:
+     *                 type: string
+     *               profilePicture:
+     *                 type: string
+     *               is_active:
+     *                 type: boolean
      *     responses:
      *       201:
      *         description: User created successfully
@@ -54,7 +64,7 @@ module.exports = (() => {
           user: newUser,
         });
       } catch (error) {
-        res.status(500).json({ message: "sorry ..!" });
+        res.status(500).json({ message: "Internal server error" });
       }
     },
 
@@ -74,6 +84,23 @@ module.exports = (() => {
      *     responses:
      *       200:
      *         description: User details
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 user_id:
+     *                   type: string
+     *                 first_name:
+     *                   type: string
+     *                 last_name:
+     *                   type: string
+     *                 email:
+     *                   type: string
+     *                 profilePicture:
+     *                   type: string
+     *                 is_active:
+     *                   type: boolean
      *       400:
      *         description: User ID is required
      *       500:
@@ -90,7 +117,7 @@ module.exports = (() => {
         const user = await UserService.getUserById(userId);
         return res.status(200).json(user);
       } catch (error) {
-        res.status(500).json({ message: "sorry ..!!" });
+        res.status(500).json({ message: "Internal server error" });
       }
     },
 
@@ -103,6 +130,25 @@ module.exports = (() => {
      *     responses:
      *       200:
      *         description: List of users
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 type: object
+     *                 properties:
+     *                   user_id:
+     *                     type: string
+     *                   first_name:
+     *                     type: string
+     *                   last_name:
+     *                     type: string
+     *                   email:
+     *                     type: string
+     *                   profilePicture:
+     *                     type: string
+     *                   is_active:
+     *                     type: boolean
      *       500:
      *         description: Internal server error
      */
@@ -146,7 +192,7 @@ module.exports = (() => {
 
         await UserService.deleteUserById(userId);
 
-        return res.status(200).json({ message: "User deleted successfully" }); 
+        return res.status(200).json({ message: "User deleted successfully" });
       } catch (error) {
         res.status(500).json({ message: "Internal server error" });
       }

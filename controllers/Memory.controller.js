@@ -2,6 +2,9 @@ const MemoryService = require("../services/MemoryService");
 const express = require("express");
 const router = express.Router();
 
+const {
+  createTodoPermissionMiddleware,
+} = require("../middlewares/authorization.middleware");
 // Define the MemoryController
 // const MemoryController = {
 //   // Create a new memory
@@ -233,12 +236,24 @@ const MemoryController = {
 // const MemoryController = require("../controllers/Memory.controller");
 
 
- router.post("/", MemoryController.createMemory); // Create a memory
- router.get("/memory/:id", MemoryController.getMemory); // Get a memory by ID
+ router.post(
+   "/",
+   [createTodoPermissionMiddleware],
+   MemoryController.createMemory
+ ); // Create a memory
+ router.get(
+   "/memory/:id",
+   [createTodoPermissionMiddleware],
+   MemoryController.getMemory
+ ); // Get a memory by ID
 router.get("/memories", MemoryController.getAllMemories); // getall memories 
  router.get("/user/:userId", MemoryController.getMemoriesByUser); 
  //router.put("/:id", MemoryController.updateMemory); // Update a memory by ID
- router.delete("/:id", MemoryController.deleteMemory); // Delete a memory by ID
+ router.delete(
+   "/:id",
+   [createTodoPermissionMiddleware],
+   MemoryController.deleteMemory
+ ); // Delete a memory by ID
 
 
 return router;

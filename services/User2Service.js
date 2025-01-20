@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const UserRepository = require("../repos/UserRepo");
+const UserRepository = require("../repos/User2Repo");
 
 const UserService = {
   // createUser: async (userData) => {
@@ -15,16 +15,7 @@ const UserService = {
   //   // Assume userData is valid and contains all necessary fields
   //   return await UserRepository.createUser(userData);
   // },
-  createUser: async ({
-    user_id,
-    first_name,
-    last_name,
-    email,
-    password,
-    profilePicture,
-    user_type,
-    is_active,
-  }) => {
+  createUser: async (userData) => {
     try {
       // Generate salt
       const salt = await bcrypt.genSalt(10);
@@ -34,20 +25,22 @@ const UserService = {
 
       // Prepare user data for creation
       const userPayload = {
-        user_id: user_id, // Ensure user_id is passed
-        first_name: first_name,
-        last_name: last_name,
-        email: email,
+        user_id: userData.user_id, // Ensure user_id is passed
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        email: userData.email,
         password: hashedPassword,
-        salt,
-        profilePicture,
-        is_active:true, // Store the generated salt
-        user_type: "super_admin", // Set default user_type
+        profilePicture: userData.profilePicture,
+        is_active: userData.is_active,
+        salt, // Store the generated salt
+        user_type: userData.user_type, // Set default user_type
+        profilePicture: userData.profilePicture || null, // Optional
+        // is_active: true, // Default to active
       };
 
-      // after creating return this user 
+      // after creating return this user
       const createdUser = await UserRepository.createUser(userPayload);
-// after returning this user will take some data to create claims to return it 
+      // after returning this user will take some data to create claims to return it
       const claim = {
         username: `${createdUser.first_name} ${createdUser.last_name}`, // Combine first and last names
         email: createdUser.email,
